@@ -30,9 +30,6 @@ class EmailTemplate(models.Model):
     body = models.TextField(default='')
     txt_body = models.TextField(blank=True, null=True, help_text="If present, use as the plain-text body")
 
-    class Meta:
-        abstract = True
-
     def natural_key(self):
         return [self.slug]
 
