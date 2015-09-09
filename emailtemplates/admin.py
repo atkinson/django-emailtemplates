@@ -13,7 +13,6 @@
 # limitations under the License.
 
 from django.contrib import admin
-from django import forms
 from basic_models import admin as basic_admin
 
 from emailtemplates.models import *

@@ -11,6 +11,7 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
+from autoslug import AutoSlugField
 
 from django.template import Template, Context, loader, TemplateDoesNotExist
 from django.conf import settings
@@ -18,16 +19,29 @@ from django.contrib.sites.models import Site
 from django.core.mail import EmailMultiAlternatives
 from django.db import models
 from django.template.defaultfilters import striptags
-import basic_models
 
 
-
-class EmailTemplate(basic_models.SlugModel):
+class EmailTemplate(models.Model):
+    name = models.CharField(max_length=1024)
+    slug = AutoSlugField(max_length=255, populate_from='name', unique=True, blank=True, editable=True)
     base_template = models.CharField(max_length=1024, blank=True, help_text="If present, the name of a django template.<br/> The body field will be present as the 'email_body' context variable")
     subject = models.CharField(max_length=1024)
     from_address = models.CharField(max_length=1024, blank=True, null=True, help_text="Specify as: 'Full Name &lt;email@address>'<br/>Defaults to: 'no-reply@site.domain'")
     body = models.TextField(default='')
     txt_body = models.TextField(blank=True, null=True, help_text="If present, use as the plain-text body")
+
+    class Meta:
+        abstract = True
+
+    def natural_key(self):
+        return [self.slug]
+
+    def __unicode__(self):
+        return self.name
+
+    def publish(self):
+        super(EmailTemplate, self).publish()
+        self.publish_by('slug')
 
     def render(self, context):
         if self.base_template:
