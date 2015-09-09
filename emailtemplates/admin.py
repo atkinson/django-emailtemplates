@@ -13,13 +13,10 @@
 # limitations under the License.
 
 from django.contrib import admin
-from basic_models import admin as basic_admin
-
-from emailtemplates.models import *
+from emailtemplates.models import EmailTemplate
 
 
-
-class EmailTemplateAdmin(basic_admin.DefaultModelAdmin):
+class EmailTemplateAdmin(admin.ModelAdmin):
     list_display = ('name', 'slug', 'subject', 'visible_from_address')
     search_fields = ('name', 'slug', 'subject', 'from_address', 'body')
     fieldsets = (
