@@ -1,17 +1,4 @@
-# Copyright 2011 Concentric Sky, Inc.
-#
-# Licensed under the Apache License, Version 2.0 (the "License");
-# you may not use this file except in compliance with the License.
-# You may obtain a copy of the License at
-#
-#   http://www.apache.org/licenses/LICENSE-2.0
-#
-# Unless required by applicable law or agreed to in writing, software
-# distributed under the License is distributed on an "AS IS" BASIS,
-# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-# See the License for the specific language governing permissions and
-# limitations under the License.
-from autoslug import AutoSlugField
+import logging
 
 from django.template import Template, Context, loader, TemplateDoesNotExist
 from django.conf import settings
@@ -19,6 +6,10 @@ from django.contrib.sites.models import Site
 from django.core.mail import EmailMultiAlternatives
 from django.db import models
 from django.template.defaultfilters import striptags
+
+from autoslug import AutoSlugField
+
+logger = logging.getLogger(__name__)
 
 
 class EmailTemplate(models.Model):
@@ -69,6 +60,11 @@ class EmailTemplate(models.Model):
     def send(self, to_addresses, context={}, attachments=None, headers=None):
         html_body = self.render(context)
         text_body = self.render_txt(context) or striptags(html_body)
+        try:
+            from premailer import transform
+            html_body = transform(html_body)
+        except ImportError:
+            logger.info('pip install premailer to render CSS inline in emails')
 
         subject = self._render_from_string(self.subject, context)
         if isinstance(to_addresses, (str,unicode)):

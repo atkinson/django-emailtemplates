@@ -1,14 +1,13 @@
-![Concentric Sky](https://concentricsky.com/media/uploads/images/csky_logo.jpg)
-
 
 # Django Email Templates
 
-Email Templates is an open source Django app developed by [Concentric Sky](http://concentricsky.com/) to allow creation and editing of email templates in Django's admin interface. The resulting templates can be referenced in code and will be rendered with standard Django template context.
+Email Templates is an open source Django app to allow creation and editing of email templates in Django's admin interface. The resulting templates can be referenced in code and will be rendered with standard Django template context.
 
 
 ## Installation
 
     pip install git+https://github.com/concentricsky/django-emailtemplates.git
+
 
 Include Email Templates in your settings.py.
 
