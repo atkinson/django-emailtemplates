@@ -61,10 +61,10 @@ class EmailTemplate(models.Model):
         html_body = self.render(context)
         text_body = self.render_txt(context) or striptags(html_body)
         try:
-            from premailer import transform
-            html_body = transform(html_body)
+            from inlinestyler.utils import inline_css
+            html_body = inline_css(html_body)
         except ImportError:
-            logger.info('pip install premailer to render CSS inline in emails')
+            logger.info('pip install instyler to render CSS inline in emails')
 
         subject = self._render_from_string(self.subject, context)
         if isinstance(to_addresses, (str,unicode)):
@@ -93,7 +93,7 @@ class EmailTemplate(models.Model):
 
     def _render_from_string(self, s, context):
         t = Template(s)
-        return t.render(Context(context)).encode('ascii', 'ignore')
+        return t.render(Context(context)).encode('utf-8', 'ignore')
 
     @staticmethod
     def send_template(slug, to_address, context={}, attachments=None, headers=None):

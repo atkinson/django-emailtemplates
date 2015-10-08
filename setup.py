@@ -4,9 +4,9 @@ import emailtemplates
 setup(
     name='django-emailtemplates',
     version=".".join(map(str, emailtemplates.VERSION)),
-    packages = find_packages(),
+    packages=find_packages(),
 
-    author = 'Concentric Sky',
-    author_email = 'django@concentricsky.com',
-    description = 'Concentric Sky\'s Django Email Templates app',
+    author='Rich Atkinson (based on some other app that was fundamentally broken)',
+    author_email='rich@piran.com.au',
+    description=' Django Email Templates app',
 )

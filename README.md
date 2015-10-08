@@ -6,7 +6,7 @@ Email Templates is an open source Django app to allow creation and editing of em
 
 ## Installation
 
-    pip install git+https://github.com/concentricsky/django-emailtemplates.git
+    pip install git+https://github.com/atkinson/django-emailtemplates.git
 
 
 Include Email Templates in your settings.py.
@@ -23,7 +23,7 @@ Include Email Templates in your settings.py.
 Send an email by using the send_email_template utility.
 
     from emailtemplates.utils import send_email_template
-    send_email_template('template_slug', 'toemail@example.com', {'context_variable': 'foo'})
+    send_email_template('template_slug', ['toemail@example.com'], {'context_variable': 'foo'})
 
 
 ## Optional Settings
@@ -41,9 +41,4 @@ You can also implement DEBUG mode, where only email addresses that match your wh
 
 ## License
 
-This project is licensed under the Apache License, Version 2.0. Details can be found in the LICENSE.md file.
-
-
-## About Concentric Sky
-
-_For nearly a decade, Concentric Sky has been building technology solutions that impact people everywhere. We work in the mobile, enterprise and web application spaces. Our team, based in Eugene Oregon, loves to solve complex problems. Concentric Sky believes in contributing back to our community and one of the ways we do that is by open sourcing our code on GitHub. Contact Concentric Sky at hello@concentricsky.com._
+This project is licensed under BSD
