@@ -57,7 +57,7 @@ class EmailTemplate(models.Model):
         else:
             return 'no-reply@%s' % site.domain
 
-    def send(self, to_addresses, context={}, attachments=None, headers=None):
+    def send(self, to_addresses, context={}, attachments=None, headers=None, **kwargs):
         html_body = self.render(context)
         text_body = self.render_txt(context) or striptags(html_body)
         try:
@@ -83,7 +83,7 @@ class EmailTemplate(models.Model):
                     cleaned_to_addresses.append(address)
             to_addresses = cleaned_to_addresses
 
-        msg = EmailMultiAlternatives(subject, text_body, self.visible_from_address(), to_addresses, headers=headers)
+        msg = EmailMultiAlternatives(subject, text_body, self.visible_from_address(), to_addresses, headers=headers, **kwargs)
         msg.attach_alternative(html_body, "text/html")
 
         if attachments is not None:
@@ -96,7 +96,7 @@ class EmailTemplate(models.Model):
         return t.render(Context(context)).encode('utf-8', 'ignore')
 
     @staticmethod
-    def send_template(slug, to_address, context={}, attachments=None, headers=None):
+    def send_template(slug, to_address, context={}, attachments=None, headers=None, **kwargs):
         from emailtemplates.utils import send_email_template
-        return send_email_template(slug, to_address, context=context, attachments=attachments, headers=headers)
+        return send_email_template(slug, to_address, context=context, attachments=attachments, headers=headers, **kwargs)
 
