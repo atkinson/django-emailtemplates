@@ -8,7 +8,7 @@ class EmailTemplateAdmin(admin.ModelAdmin):
     fieldsets = (
         (None, {'fields': ('name', 'slug', 'from_address', 'bcc')}),
         ('Email', {'fields': ('subject', 'body',)}),
-        ('Advanced', {'classes': ('',), 'fields': ('base_template','txt_body')})
+        ('Advanced', {'classes': ('',), 'fields': ('base_template', 'txt_body')})
     )
     prepopulated_fields = {'slug': ('name',)}
 admin.site.register(EmailTemplate, EmailTemplateAdmin)
