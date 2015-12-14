@@ -20,6 +20,7 @@ class EmailTemplate(models.Model):
     from_address = models.CharField(max_length=1024, blank=True, null=True, help_text="Specify as: 'Full Name &lt;email@address>'<br/>Defaults to: 'no-reply@site.domain'")
     body = models.TextField(default='')
     txt_body = models.TextField(blank=True, null=True, help_text="If present, use as the plain-text body")
+    bcc = models.CharField(blank=True, default='', max_length=100, help_text="Optional: specific a BCC address")
 
     def natural_key(self):
         return [self.slug]
@@ -83,7 +84,8 @@ class EmailTemplate(models.Model):
                     cleaned_to_addresses.append(address)
             to_addresses = cleaned_to_addresses
 
-        msg = EmailMultiAlternatives(subject, text_body, self.visible_from_address(), to_addresses, headers=headers, **kwargs)
+        bcc = [self.bcc, ]
+        msg = EmailMultiAlternatives(subject, text_body, self.visible_from_address(), to_addresses, bcc=bcc, headers=headers, **kwargs)
         msg.attach_alternative(html_body, "text/html")
 
         if attachments is not None:
